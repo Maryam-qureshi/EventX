@@ -14,6 +14,9 @@ const PlannerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  experience: {
+    type: String,
+  }
 });
 
 const Planner = mongoose.model('Planner', PlannerSchema);
