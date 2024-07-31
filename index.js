@@ -1,5 +1,6 @@
 const express = require ("express");
 const { connectMongoDb } = require("./connection/config")
+const userRoutes = require('./routes/userRoute');
 const app = express();
 const PORT = 8000;
 
@@ -7,11 +8,10 @@ const PORT = 8000;
 connectMongoDb("mongodb://127.0.0.1:27017/EventX");
 
 //Middleware
-
+//....
 
 //Routes
-
-
+app.use('/api/user', userRoutes);
 
 
 app.listen(PORT,()=>{
