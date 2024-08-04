@@ -1,6 +1,8 @@
 const express = require("express");
 const { connectMongoDb } = require("./connection/config");
 const path = require("path");
+const cookieParser = require("cookie-parser");
+const { restrictToLoggedinUsersOnly } = require("./middleware/auth");
 const userRoutes = require("./routes/userRoute");
 const eventRoutes = require("./routes/eventRoute");
 const staticRoute = require("./routes/staticRouter");
@@ -12,13 +14,12 @@ connectMongoDb("mongodb://127.0.0.1:27017/EventX");
 
 //Set view engine
 app.set("view engine", "ejs");
-app.set("view", path.resolve("./views"));
+app.set("views", path.resolve("./views"));
 
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// Set the views directory
-app.set("views", path.join(__dirname, "views"));
+app.use(cookieParser());
 
 //Routes
 app.use("/api/user", userRoutes);
