@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventX - Home</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+      }
+      header {
+        background: #333;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+      }
+      nav {
+        margin: 20px 0;
+      }
+      nav a {
+        margin: 0 10px;
+        color: #f7f3f3;
+        text-decoration: none;
+      }
+      #showcase {
+        background: #333;
+        color: #fff;
+        padding: 100px 0;
+        text-align: center;
+      }
+      #services {
+        padding: 20px 0;
+        text-align: center;
+      }
+      .content {
+        display: flex;
+        justify-content: space-around;
+      }
+      .box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 30%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>EventX</h1>
+        <nav>
+          <a href="#">Home</a>
+          <a href="/new-event">Add Event</a>
+          <a href="/api/event/">Get Events</a>
+        </nav>
+      </div>
+    </header>
+
+    <div id="showcase">
+      <div class="container">
+        <h1>Welcome to EventX</h1>
+        <p>Your trusted partner in event planning and management</p>
+      </div>
+    </div>
+
+    <section id="services" class="container">
+      <h2>Our Services</h2>
+      <div class="content">
+        <div class="box">
+          <h3>Weddings</h3>
+          <p>
+            We plan and manage the most beautiful weddings tailored to your
+            needs and preferences.
+          </p>
+        </div>
+        <div class="box">
+          <h3>Corporate Events</h3>
+          <p>
+            From small meetings to large conferences, we ensure your corporate
+            events are successful and memorable.
+          </p>
+        </div>
+        <div class="box">
+          <h3>Birthday Parties</h3>
+          <p>We create unforgettable birthday parties for all ages.</p>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

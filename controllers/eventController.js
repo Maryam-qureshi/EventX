@@ -1,52 +1,59 @@
-const Event = require('../models/event');
+
+const Event = require("../models/event");
 
 const createEvent = async (req, res) => {
-  const { id,eventType, date, location, budget, preferences } = req.body;
+  console.log(req.body);
+  const { eventType, date, location, budget, preferences } = req.body;
   try {
     const event = new Event({
-      user: id,
+      user: req.user._id,
       eventType,
       date,
       location,
       budget,
       preferences,
     });
-
     await event.save();
-    res.status(201).json({ message: "Successfully added new event", event });
-
+    console.log("Added");
+    res.redirect("/");
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error("Error creating event:", err);
+    res.status(500).send("Server Error");
   }
 };
 
 const getEvents = async (req, res) => {
   try {
-    const events = await Event.find({ user: req.params.id });
-    res.json(events);
+    const events = await Event.find({ user: req.user._id });
+    if (!events) {
+      return res.json({ msg: "No event" });
+    }
+    res.render("events", { events });
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error("Error fetching events:", err);
+    res.status(500).send("Server Error");
   }
 };
 
 const deleteEvent = async (req, res) => {
+  const eventId = req.params.id;
+  console.log(`Attempting to delete event with ID: ${eventId}`); 
   try {
-    const { id } = req.params;
-    const event = await Event.findById(id);
-    if (!event) {
-      return res.status(404).json({ message: "Event not found" });
+    const result = await Event.findByIdAndDelete(eventId); 
+    if (result) {
+      res.status(204).send(); // Send a 204 No Content response
+    } else {
+      res.status(404).send("Event not found"); 
     }
-    
-    await event.remove();
-    res.json({ message: "Event removed" });
+  } catch (error) {
+    console.error("Error deleting event:", error);
+    res.status(500).send("Internal Server Error");
 
-  } catch (err) {
-    res.status(500).send('Server Error');
   }
 };
 
 module.exports = {
   createEvent,
   getEvents,
-  deleteEvent
+  deleteEvent,
 };
