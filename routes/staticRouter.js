@@ -5,4 +5,16 @@ router.get("/", (req, res) => {
   return res.render("home");
 });
 
+router.get("/signup", (req, res) => {
+  return res.render("signup");
+});
+
+router.get("/login", (req, res) => {
+  return res.render("login");
+});
+
+router.get("/new-event", (req, res) => {
+  return res.render("new-event");
+});
+
 module.exports = router;
