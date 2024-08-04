@@ -1,3 +1,4 @@
+
 const express = require("express");
 const { connectMongoDb } = require("./connection/config");
 const path = require("path");
@@ -29,3 +30,4 @@ app.use("/", staticRoute);
 app.listen(PORT, () => {
   console.log("Server started on port 8000");
 });
+

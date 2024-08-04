@@ -1,3 +1,4 @@
+
 const Event = require("../models/event");
 
 const createEvent = async (req, res) => {
@@ -36,17 +37,18 @@ const getEvents = async (req, res) => {
 
 const deleteEvent = async (req, res) => {
   const eventId = req.params.id;
-  console.log(`Attempting to delete event with ID: ${eventId}`); // Add this line to debug
+  console.log(`Attempting to delete event with ID: ${eventId}`); 
   try {
-    const result = await Event.findByIdAndDelete(eventId); // Delete event from your data source
+    const result = await Event.findByIdAndDelete(eventId); 
     if (result) {
       res.status(204).send(); // Send a 204 No Content response
     } else {
-      res.status(404).send("Event not found"); // Send 404 if the event was not found
+      res.status(404).send("Event not found"); 
     }
   } catch (error) {
     console.error("Error deleting event:", error);
     res.status(500).send("Internal Server Error");
+
   }
 };
 

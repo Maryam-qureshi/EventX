@@ -1,6 +1,8 @@
+
 const User = require("../models/user");
 const { v4: uuidv4 } = require("uuid");
 const { setUser } = require("../service/auth");
+
 
 const signup = async (req, res) => {
   console.log(req.body);
@@ -19,6 +21,7 @@ const signup = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
+
   }
 };
 
@@ -27,6 +30,7 @@ const login = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (!user) {
+
       return res
         .status(400)
         .json({ msg: "Invalid Credentials / Invalid e-mail" });
