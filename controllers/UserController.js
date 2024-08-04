@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const { v4: uuidv4 } = require("uuid");
+const { setUser } = require("../service/auth");
 
 const signup = async (req, res) => {
   console.log(req.body);
@@ -13,6 +15,7 @@ const signup = async (req, res) => {
     user = new User({ name, email, password, isPlanner: isPlannerBoolean });
     await user.save();
     res.status(201).json({ message: "User Successfully added", id: user.id });
+    return res.redirect("/");
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
@@ -24,12 +27,20 @@ const login = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: "Invalid Credentials" });
+      return res
+        .status(400)
+        .json({ msg: "Invalid Credentials / Invalid e-mail" });
     }
     const isMatch = password === user.password;
     if (!isMatch) {
-      return res.status(400).json({ msg: "Invalid Credentials" });
+      return res
+        .status(400)
+        .json({ msg: "Invalid Credentials / Invalid password" });
     }
+
+    const token = setUser(user);
+    res.cookie("uid", token);
+    return res.redirect("/");
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
