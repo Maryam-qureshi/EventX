@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 const User = require("../models/user");
 const { v4: uuidv4 } = require("uuid");
 const { setUser } = require("../service/auth");
+=======
+const User = require('../models/user');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+>>>>>>> e8dc6015e82a6a90ad127145c5b04d6551dcc69b
 
 const signup = async (req, res) => {
   console.log(req.body);
@@ -8,6 +14,7 @@ const signup = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
+<<<<<<< HEAD
       return res.status(400).json({ msg: "User already exists" });
     }
     const isPlannerBoolean = isPlanner === "true" || isPlanner === true;
@@ -19,6 +26,20 @@ const signup = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
+=======
+      return res.status(400).json({ msg: 'User already exists' });
+    }
+    const isPlannerBoolean = (isPlanner === 'true' || isPlanner === true);
+
+    
+    user = new User({ name, email, password, isPlanner:isPlannerBoolean });
+    await user.save();
+    res.status(201).json({message: "User Successfully added", id: user.id});
+    
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Server Error');
+>>>>>>> e8dc6015e82a6a90ad127145c5b04d6551dcc69b
   }
 };
 
@@ -27,6 +48,7 @@ const login = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (!user) {
+<<<<<<< HEAD
       return res
         .status(400)
         .json({ msg: "Invalid Credentials / Invalid e-mail" });
@@ -44,12 +66,25 @@ const login = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
+=======
+      return res.status(400).json({ msg: 'Invalid Credentials' });
+    }
+    const isMatch = (password===user.password)
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'Invalid Credentials' });
+    }
+    
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Server Error');
+>>>>>>> e8dc6015e82a6a90ad127145c5b04d6551dcc69b
   }
 };
 
 const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+<<<<<<< HEAD
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
@@ -75,3 +110,31 @@ module.exports = {
   getUser,
   deleteUser,
 };
+=======
+    if(!user){
+        return res.status(400).json({message:"User not found"});
+    }
+    return res.json(user);
+  } catch (err) {
+    console.log('Error');
+    res.status(500).send('Server Error');
+  }
+};
+
+const deleteUser = async (req,res) => {
+    try {
+       await User.findByIdAndDelete(req.params.id);
+       res.status(200).json({message: "The user deleted successfully"});
+    }
+    catch(err) {
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports ={
+    signup,
+    login,
+    getUser,
+    deleteUser
+}
+>>>>>>> e8dc6015e82a6a90ad127145c5b04d6551dcc69b
