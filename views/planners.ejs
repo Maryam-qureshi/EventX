@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Planners</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+      main {
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+      }
+      .planner-profile {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      .planner-profile h2 {
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+        color: #007bff;
+      }
+      .portfolio-item {
+        background-color: #f9f9f9;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      .portfolio-item h3 {
+        margin-top: 0;
+        color: #333;
+      }
+      .portfolio-item p {
+        margin: 5px 0;
+        color: #555;
+      }
+      .actions a,
+      .actions button {
+        margin: 5px;
+        text-decoration: none;
+        color: #007bff;
+        border: 1px solid #007bff;
+        padding: 5px 10px;
+        border-radius: 4px;
+      }
+      .actions button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+      }
+      .actions button:hover {
+        background-color: #0056b3;
+      }
+      .actions a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Planners</h1>
+    </header>
+    <main>
+      <% if (planners.length > 0) { %> <% planners.forEach(planner => { %>
+      <div class="planner-profile">
+        <h2><%= planner.name %></h2>
+        <p><strong>Email:</strong> <%= planner.email %></p>
+        <div>
+          <h3>Profile Details:</h3>
+          <p><strong>Expertise:</strong> <%= planner.profile.expertise %></p>
+          <p><strong>Services:</strong> <%= planner.profile.services %></p>
+          <p><strong>Experience:</strong> <%= planner.profile.experience %></p>
+        </div>
+        <div>
+          <h3>Portfolio:</h3>
+          <% if (planner.portfolio.length > 0) { %> <%
+          planner.portfolio.forEach(item => { %>
+          <div class="portfolio-item">
+            <h3><%= item.title %></h3>
+            <p><strong>Description:</strong> <%= item.description %></p>
+            <p><strong>Date:</strong> <%= item.date.toDateString() %></p>
+          </div>
+          <% }) %> <% } else { %>
+          <p>No portfolio items found.</p>
+          <% } %>
+        </div>
+        <div class="actions">
+          <a href="/profile/<%= planner._id %>">Edit Profile</a>
+        
+            <button onclick="deleteEvent('<%= planner._id%>')">Delete Details</button>
+          </form>
+        </div>
+      </div>
+      <% }) %> <% } else { %>
+      <p>No planners found.</p>
+      <% } %>
+    </main>
+    <script>
+        async function deleteEvent(plannerId) {
+          if (confirm("Are you sure you want to delete this event?")) {
+            try {
+              const response = await fetch(`/api/planners/${plannerId}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+    
+              if (response.ok) {
+                window.location.reload(); // Reload the page to reflect changes
+              } else {
+                console.error("Failed to delete event");
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        }
+      </script>
+  </body>
+</html>
