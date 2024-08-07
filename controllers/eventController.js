@@ -37,7 +37,7 @@ const getEvents = async (req, res) => {
 const deleteEvent = async (req, res) => {
   const eventId = req.params.id;
   try {
-    const result = await Event.findByIdAndDelete(eventId); // Delete event from your data source
+    const result = await Event.findByIdAndDelete(eventId);
     if (result) {
       res.status(204).send(); // Send a 204 No Content response
     } else {

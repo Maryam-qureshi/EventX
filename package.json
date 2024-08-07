@@ -1,7 +1,7 @@
 {
   "name": "eventx-backend",
   "version": "1.0.0",
-  "description": "This is using nodejs,mongodb,mongoose",
+  "description": "This is using nodejs, mongodb, mongoose",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index"
@@ -9,12 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.10",
-=======
-    "bcryptjs": "^2.4.3",
->>>>>>> e8dc6015e82a6a90ad127145c5b04d6551dcc69b
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.1",
