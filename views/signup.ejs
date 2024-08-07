@@ -76,12 +76,32 @@
           <input type="password" id="password" name="password" required />
         </div>
         <div class="form-group">
-          <label for="isPlanner">Are you a planner?</label>
+          <label for="isPlanner">I am a planner</label>
           <input type="checkbox" id="isPlanner" name="isPlanner" value="true" />
+        </div>
+        <div id="plannerFields" style="display: none">
+          <br /><br />
+          <label for="expertise">Expertise:</label>
+          <input type="text" id="expertise" name="expertise" required />
+          <br /><br />
+          <label for="services">Services:</label>
+          <input type="text" id="services" name="services" required />
+          <br /><br />
+          <label for="experience">Experience:</label>
+          <input type="text" id="experience" name="experience" required />
         </div>
         <button type="submit">Sign Up</button>
       </form>
       <p>Already have an account? <a href="./login.ejs">Login here</a></p>
     </div>
+    <script>
+      document
+        .getElementById("isPlanner")
+        .addEventListener("change", function () {
+          document.getElementById("plannerFields").style.display = this.checked
+            ? "block"
+            : "none";
+        });
+    </script>
   </body>
 </html>

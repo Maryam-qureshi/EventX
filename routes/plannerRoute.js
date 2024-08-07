@@ -6,17 +6,12 @@ const router = express.Router();
 router.get("/", restrictToLoggedinUsersOnly, planner.getPlanners); // Route to browse planners
 router.get("/:id", restrictToLoggedinUsersOnly, planner.getPlannerProfile); // Route to view planner profile
 router.post(
-  "/profile",
-  restrictToLoggedinUsersOnly,
-  planner.createPlannerProfile
-); // Route to create planner profile
-router.put(
   "/profile/:id",
   restrictToLoggedinUsersOnly,
   planner.updatePlannerProfile
 ); // Route to update planner profile
 router.post(
-  "/portfolio",
+  "/portfolio/:id",
   restrictToLoggedinUsersOnly,
   planner.addPortfolioItem
 ); // Route to add portfolio item
