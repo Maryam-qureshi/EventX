@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use("/api/user", userRoutes);
 app.use("/api/event", eventRoutes);
 app.use("/", staticRoute);
-app.use("/planners", plannerRoutes);
+app.use("/api/planners", plannerRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
