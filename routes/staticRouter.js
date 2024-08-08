@@ -31,4 +31,17 @@ router.get("/profile/:id", async (req, res) => {
   }
 });
 
+router.get("/reviews/:id", async (req, res) => {
+  try {
+    const planner = await Planner.findById(req.params.id);
+    if (!planner) {
+      return res.status(404).send("Planner not found");
+    }
+    res.render("review", { planner }); // Ensure `planner` is passed here
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

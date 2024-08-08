@@ -16,5 +16,6 @@ router.post(
   planner.addPortfolioItem
 ); // Route to add portfolio item
 router.delete("/:id", restrictToLoggedinUsersOnly, planner.deletePlanner); //Route to delete planner
+router.post("/reviews/:id", restrictToLoggedinUsersOnly, planner.addReview);
 
 module.exports = router;

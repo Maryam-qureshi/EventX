@@ -1,5 +1,6 @@
 const Planner = require("../models/planner"); // Assuming you have a Planner model
 const User = require("../models/user");
+
 const getPlanners = async (req, res) => {
   try {
     const planners = await Planner.find({});
@@ -94,10 +95,47 @@ const deletePlanner = async (req, res) => {
   }
 };
 
+const addReview = async (req, res) => {
+  try {
+    console.log("Request Params:", req.params); // Add this line to debug
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+    const userId = req.user._id;
+
+    console.log("User ID:", userId);
+    console.log("Planner ID:", id);
+    const planner = await Planner.findById(id);
+
+    if (!planner) {
+      return res.status(404).send("Planner not found");
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    // Add the review to the planner
+    planner.reviews.push({
+      user: userId,
+      rating,
+      comment,
+    });
+
+    await planner.save();
+
+    res.status(200).send("Review added successfully");
+  } catch (err) {
+    console.error("Error adding review:", err);
+    res.status(500).send("Server Error");
+  }
+};
+
 module.exports = {
   getPlanners,
   getPlannerProfile,
   updatePlannerProfile,
   addPortfolioItem,
   deletePlanner,
+  addReview,
 };
