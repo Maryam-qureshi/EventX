@@ -1,7 +1,7 @@
 {
   "name": "eventx-backend",
   "version": "1.0.0",
-  "description": "This is using nodejs,mongodb,mongoose",
+  "description": "This is using nodejs, mongodb, mongoose",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index"
