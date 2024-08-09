@@ -41,7 +41,7 @@ const deleteEvent = async (req, res) => {
     if (result) {
       res.status(204).send(); // Send a 204 No Content response
     } else {
-      res.status(404).send("Event not found"); // Send 404 if the event was not found
+      res.status(404).send("Event not found");
     }
   } catch (error) {
     console.error("Error deleting event:", error);

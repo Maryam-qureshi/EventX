@@ -1,3 +1,4 @@
+
 const express = require("express");
 const { connectMongoDb } = require("./connection/config");
 const path = require("path");
@@ -32,3 +33,4 @@ app.use("/api/planners", plannerRoutes);
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
+
