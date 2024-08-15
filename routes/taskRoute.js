@@ -1,20 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/taskController");
+const { restrictToLoggedinUsersOnly } = require("../middleware/auth");
 
-// Route to create a new task
-router.post("/tasks", taskController.createTask);
+router.post("/", restrictToLoggedinUsersOnly, taskController.createTask);
 
-// Route to get all tasks
-router.get("/tasks", taskController.getTasks);
+router.get("/", restrictToLoggedinUsersOnly, taskController.getTasks);
 
-// Route to get a specific task
-router.get("/tasks/:id", taskController.getTask);
+router.get("/:id", restrictToLoggedinUsersOnly, taskController.getTask);
 
-// Route to update a task
-router.put("/tasks/:id", taskController.updateTask);
+router.post("/:id", restrictToLoggedinUsersOnly, taskController.updateTask);
 
-// Route to delete a task
-router.delete("/tasks/:id", taskController.deleteTask);
+router.delete("/:id", restrictToLoggedinUsersOnly, taskController.deleteTask);
 
 module.exports = router;

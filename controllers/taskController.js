@@ -22,7 +22,7 @@ const createTask = async (req, res) => {
 const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find();
-    res.status(200).send(tasks);
+    res.status(200).render("tasks", { tasks });
   } catch (err) {
     res.status(500).send("Server Error");
   }
