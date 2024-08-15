@@ -1,4 +1,3 @@
-
 const express = require("express");
 const { connectMongoDb } = require("./connection/config");
 const path = require("path");
@@ -8,7 +7,7 @@ const userRoutes = require("./routes/userRoute");
 const eventRoutes = require("./routes/eventRoute");
 const staticRoute = require("./routes/staticRouter");
 const plannerRoutes = require("./routes/plannerRoute");
-
+const taskRoutes = require("./routes/taskRoute");
 const app = express();
 const PORT = 8000;
 
@@ -29,8 +28,8 @@ app.use("/api/user", userRoutes);
 app.use("/api/event", eventRoutes);
 app.use("/", staticRoute);
 app.use("/api/planners", plannerRoutes);
+app.use("/api/tasks", restrictToLoggedinUsersOnly, taskRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
-
