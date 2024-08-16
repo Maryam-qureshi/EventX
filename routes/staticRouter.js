@@ -18,6 +18,39 @@ router.get("/new-event", (req, res) => {
   return res.render("new-event");
 });
 
+router.get("/tasks", async (req, res) => {
+  try {
+    if (!req.user || !req.user._id) {
+      console.log(req.user);
+      return res.status(401).send("User not authenticated");
+    }
+
+    const userId = req.user._id; // Get the current user ID
+    console.log("User ID:", userId); // Debugging log to check user ID
+
+    // Fetch tasks assigned to the current user
+    const tasks = await Task.find({ assignedTo: userId });
+    console.log("Fetched Tasks:", tasks); // Debugging log to check fetched tasks
+
+    // Render the tasks view with the fetched tasks
+    res.render("tasks", { tasks });
+  } catch (err) {
+    console.error("Error fetching tasks:", err);
+    res.status(500).send("Server Error");
+  }
+});
+
+router.get("/manageTasks", async (req, res) => {
+  try {
+    const tasks = await Task.find(); // Fetch all tasks (or adjust as needed)
+    const users = await User.find(); // Fetch all users (to assign tasks to)
+    res.render("manageTasks", { tasks, users }); // Pass tasks and users to the view
+  } catch (err) {
+    console.error("Error fetching tasks or users:", err);
+    res.status(500).send("Server Error");
+  }
+});
+
 router.get("/profile/:id", async (req, res) => {
   try {
     const planner = await Planner.findById(req.params.id);

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Tasks</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .task-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .task {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .task:last-child {
+      border-bottom: none;
+    }
+    h3 {
+      margin: 0 0 5px;
+    }
+    p {
+      margin: 5px 0;
+    }
+    form {
+      margin-top: 10px;
+    }
+    select, input[type="text"], textarea, button {
+      padding: 5px;
+      font-size: 1rem;
+    }
+    select, input[type="text"], textarea {
+      margin-right: 10px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .no-tasks {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h2>Your Tasks</h2>
+
+  <!-- Form to Create a New Task -->
+  <div class="task-container">
+    <h3>Create a New Task</h3>
+    <form action="/api/tasks/" method="POST">
+      <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required />
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+      </div>
+      <div>
+        <label for="dueDate">Due Date:</label>
+        <input type="date" id="dueDate" name="dueDate" required />
+      </div>
+      <button type="submit">Create Task</button>
+    </form>
+    <hr>
+  </div>
+
+  <!-- Existing Tasks -->
+  <div class="task-container">
+    <% if (tasks.length === 0) { %>
+      <p class="no-tasks">You have no tasks at the moment.</p>
+    <% } else { %>
+      <% tasks.forEach(task => { %>
+        <div class="task">
+          <h3><%= task.title %></h3>
+          <p><%= task.description %></p>
+          <p>Due Date: <%= task.dueDate.toDateString() %></p>
+          <p>Status: <%= task.status %></p>
+          <form action="/api/tasks/<%= task._id %>/" method="POST">
+            <select name="status">
+              <option value="Pending" <%= task.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+              <option value="In Progress" <%= task.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+              <option value="Completed" <%= task.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+            </select>
+            <button type="submit">Update Status</button>
+          </form>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</body>
+</html>
