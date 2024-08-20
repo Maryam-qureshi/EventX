@@ -1,6 +1,6 @@
 const ChatRoom = require("./models/chat");
 const Message = require("./models/message");
-const authMiddleware = require("./middleware/authMiddleware");
+const authMiddleware = require("./middleware/auth");
 
 module.exports = (io) => {
   io.use(authMiddleware);
@@ -8,7 +8,6 @@ module.exports = (io) => {
   io.on("connection", (socket) => {
     console.log("New WebSocket connection");
 
-    // Join a chat room
     socket.on("joinRoom", async (chatRoomId) => {
       socket.join(chatRoomId);
 
@@ -17,33 +16,30 @@ module.exports = (io) => {
           "messages"
         );
         if (chatRoom) {
-          const messages = chatRoom.messages;
-          socket.emit("loadMessages", messages);
-        } else {
-          socket.emit("loadMessages", []);
+          socket.emit("loadMessages", chatRoom.messages);
         }
       } catch (err) {
         console.error("Error fetching messages:", err);
       }
     });
 
-    // Handle new messages
     socket.on("sendMessage", async (chatRoomId, messageContent) => {
-      if (!socket.user) return; // Ensure user is authenticated
+      if (!socket.user) return;
 
       try {
         const message = new Message({
           sender: socket.user._id,
           content: messageContent,
         });
-
         await message.save();
 
+        // Find the chat room and add the message to it
         const chatRoom = await ChatRoom.findById(chatRoomId);
         if (chatRoom) {
           chatRoom.messages.push(message._id);
           await chatRoom.save();
 
+          // Emit the new message
           io.to(chatRoomId).emit("newMessage", message);
         } else {
           console.error("Chat room not found:", chatRoomId);

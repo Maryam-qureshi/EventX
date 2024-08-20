@@ -55,11 +55,13 @@
     <h2>Chat</h2>
     <div id="chat-container">
       <div id="messages">
-        <% messages.forEach(message => { %>
+        <% if (messages.length > 0) { %> <% messages.forEach(message => { %>
         <p>
           <strong><%= message.sender.name %>:</strong> <%= message.content %>
         </p>
-        <% }) %>
+        <% }) %> <% } else { %>
+        <p>No messages yet. Start the conversation!</p>
+        <% } %>
       </div>
       <form id="message-form">
         <textarea
@@ -73,7 +75,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const chatRoomId = "<%= chatRoomId %>"; // Chat room ID from the server
+      const chatRoomId = "<%= chatRoomId %>"; // chatRoomId is passed to the view
       const socket = io();
 
       // Join the chat room
@@ -94,7 +96,6 @@
         const messagesDiv = document.getElementById("messages");
         const newMessage = `<p><strong>${message.sender.name}:</strong> ${message.content}</p>`;
         messagesDiv.innerHTML += newMessage;
-        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
       });
 
       // Send a new message

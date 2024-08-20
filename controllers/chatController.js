@@ -1,18 +1,37 @@
 const ChatRoom = require("../models/chat");
-const Message = require("../models/message");
 
 exports.getChatPage = async (req, res) => {
   try {
-    const chatRoomId = req.params.chatRoomId;
-    // Ensure chatRoomId is valid and exists
-    const chatRoom = await ChatRoom.findById(chatRoomId).populate("messages");
-    if (!chatRoom) {
-      return res.status(404).send("Chat room not found");
+    if (!req.user) {
+      return res.status(401).send("User not authenticated");
     }
 
-    res.render("chat", { chatRoomId, messages: chatRoom.messages });
+    const userId = req.query.userId;
+    const currentUser = req.user._id;
+
+    // Check if chat room already exists
+    let chatRoom = await ChatRoom.findOne({
+      users: { $all: [currentUser, userId] },
+    }).populate("messages");
+
+    // If no chat room exists, create a new one
+    if (!chatRoom) {
+      chatRoom = new ChatRoom({ users: [currentUser, userId] });
+      await chatRoom.save();
+    }
+
+    // Pass chatRoomId and messages to the view
+    res.render("chat", {
+      chatRoomId: chatRoom._id.toString(), // Ensure chatRoomId is a string
+      messages: chatRoom.messages.map((msg) => ({
+        ...msg._doc,
+        sender: {
+          name: (msg.sender && msg.sender.name) || "Unknown",
+        },
+      })), // Ensure messages have sender information
+    });
   } catch (err) {
-    console.error("Error fetching chat page:", err);
+    console.error("Error fetching or creating chat room:", err);
     res.status(500).send("Server Error");
   }
 };
